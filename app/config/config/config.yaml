@@ -1,3 +1,4 @@
 version: 1.0.0
 api_url: https://api.5gla.de/api/v1
 api_version_endpoint: /info/version
+api_image_endpoint: /mica-sense/images/

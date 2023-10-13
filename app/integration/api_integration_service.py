@@ -23,4 +23,41 @@ class ApiIntegrationService:
             return True
         else:
             logging.error(f"API is not available. Status code: {response.status_code}")
+            logging.error(f"The response from the service was: {response.text}")
             return False
+
+    def send_image(self, transaction_id, drone_id, channel, images):
+        """
+        Send an image to the API server for processing.
+
+        :param transaction_id: The ID of the transaction.
+        :param drone_id: The ID of the drone.
+        :param channel: The communication channel used for sending the images.
+        :param images: A list of images to be sent.
+        :return: True if the image is successfully sent, False otherwise.
+        """
+        config_manager = ConfigManager()
+        url = config_manager.get('api_url') + config_manager.get('api_image_endpoint')
+        headers = {'X-API-Key': config_manager.get_env('API_KEY')}
+        data = {
+            'transactionId': transaction_id,
+            'droneId': drone_id,
+            'images': self._process_images(channel, images)
+        }
+        response = requests.post(url=url, headers=headers, json=data)
+        if response.status_code == 201:
+            return True
+        else:
+            logging.error(f"Looks like the image was not transferred correctly. Status code: {response.status_code}")
+            logging.error(f"The response from the service was: {response.text}")
+            return False
+
+    @staticmethod
+    def _process_images(channel, images):
+        processed_images = []
+        for image in images:
+            processed_images.append({
+                'micaSenseChannel': channel,
+                'base64Image': image
+            })
+        return processed_images
