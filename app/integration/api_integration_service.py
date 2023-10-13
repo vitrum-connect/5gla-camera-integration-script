@@ -28,6 +28,22 @@ class ApiIntegrationService:
 
     def send_image(self, transaction_id, drone_id, channel, images):
         """
+        Send images to API.
+
+        :param transaction_id: The ID of the transaction.
+        :param drone_id: The ID of the drone.
+        :param channel: The channel to send the images.
+        :param images: A list of images to send.
+        :return: True if the images were successfully sent, False otherwise.
+
+        """
+        max_retries = ConfigManager().get('max_retries')
+        for i in range(max_retries):
+            if self._send_image(transaction_id, drone_id, channel, images):
+                return True
+
+    def _send_image(self, transaction_id, drone_id, channel, images):
+        """
         Send an image to the API server for processing.
 
         :param transaction_id: The ID of the transaction.
