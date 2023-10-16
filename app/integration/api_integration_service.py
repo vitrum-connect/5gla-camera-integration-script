@@ -103,7 +103,3 @@ class ApiIntegrationService:
                 'base64Image': image
             })
         return processed_images
-
-    @staticmethod
-    def convert_tif_image_to_base64_encoded_string(tiff_image_as_bytes: bytes):
-        return base64.b64encode(tiff_image_as_bytes)

@@ -1,14 +1,11 @@
 import logging
 import unittest
-from io import BytesIO
-
-from PIL import Image
 
 from app.integration.api_integration_service import ApiIntegrationService
 
 
 class ImageSequenceSendingTest(unittest.TestCase):
-    micasense_image_channels = ['BLUE', 'GREEN', 'RED', 'RED EDGE', 'NIR']
+    micasense_image_channels = ['BLUE', 'GREEN', 'RED', 'RED_EDGE', 'NIR']
 
     def test_send_image_sequence_to_api(self):
         api_integration_service = ApiIntegrationService()
@@ -26,20 +23,15 @@ class ImageSequenceSendingTest(unittest.TestCase):
 
     @staticmethod
     def _read_all_images_as_base64_encoded_strings_from_files():
-        api_integration_service = ApiIntegrationService()
-        # Key value pairs of channel and base64 encoded image
         base74_encoded_images = {}
         for i in range(0, 5):
-            image_name = f"IMG_0000_{i + 1}.tif"
+            image_name = f"base64_encoded_drone_image_{i + 1}.txt"
             logging.info(f"Reading image: {image_name}")
-            base64_encoded_image = api_integration_service.convert_tif_image_to_base64_encoded_string(
-                ImageSequenceSendingTest._read_tiff_image(image_name))
+            base64_encoded_image = ImageSequenceSendingTest._read_base64_encoded_image(image_name)
             base74_encoded_images[ImageSequenceSendingTest.micasense_image_channels[i]] = base64_encoded_image
         return base74_encoded_images
 
     @staticmethod
-    def _read_tiff_image(image_name):
-        with Image.open('./data/raw_drone_images/' + image_name) as img:
-            with BytesIO() as buffer:
-                img.save(buffer, 'TIFF')
-                return buffer.getvalue()
+    def _read_base64_encoded_image(image_name):
+        with open(f'./data/encoded_image_set/{image_name}', 'r') as file:
+            return file.read()
