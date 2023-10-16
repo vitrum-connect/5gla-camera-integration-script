@@ -1,4 +1,5 @@
 import logging
+import time
 
 import requests
 
@@ -41,6 +42,10 @@ class ApiIntegrationService:
         for i in range(max_retries):
             if self._send_image(transaction_id, drone_id, channel, images):
                 return True
+            else:
+                logging.info(f"Retrying to send image. Attempt {i + 1}/{max_retries}")
+                logging.info(f"Sleeping for {ConfigManager().get('retry_interval')} seconds.")
+                time.sleep(ConfigManager().get('retry_interval'))
 
     def _send_image(self, transaction_id, drone_id, channel, images):
         """
