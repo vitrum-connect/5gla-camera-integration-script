@@ -1,7 +1,7 @@
 import logging
 import unittest
 
-from src.integration.api_integration_service import ApiIntegrationService
+from app.integration.api_integration_service import ApiIntegrationService
 
 
 class ImageSequenceSendingTest(unittest.TestCase):
