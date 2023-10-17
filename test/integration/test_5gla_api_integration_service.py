@@ -1,6 +1,6 @@
 import unittest
 
-from app.integration.api_integration_service import ApiIntegrationService
+from src.integration.api_integration_service import ApiIntegrationService
 
 
 class ApiIntegrationServiceTest(unittest.TestCase):
