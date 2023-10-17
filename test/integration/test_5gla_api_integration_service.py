@@ -1,6 +1,6 @@
 import unittest
 
-from app.integration.api_integration_service import ApiIntegrationService
+from src.integration.api_integration_service import ApiIntegrationService
 
 
 class ApiIntegrationServiceTest(unittest.TestCase):
@@ -22,5 +22,5 @@ class ApiIntegrationServiceTest(unittest.TestCase):
 
     @staticmethod
     def _read_base64_encoded_image_as_string_from_file():
-        with open('./data/base64_drone_image.txt', 'r') as file:
+        with open('test/integration/data/base64_drone_image.txt', 'r') as file:
             return file.read()
