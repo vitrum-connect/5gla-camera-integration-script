@@ -16,7 +16,7 @@ class ApiIntegrationService:
     def check_availability():
         """
         Checks the availability of the 5GLA API.
-            """
+        """
         config_manager = ConfigManager()
         url = config_manager.get('api_url') + config_manager.get('api_version_endpoint')
         headers = {'X-API-Key': config_manager.get_env('API_KEY')}
