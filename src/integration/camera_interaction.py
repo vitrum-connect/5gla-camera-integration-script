@@ -1,77 +1,88 @@
 # This is a sample Python script.
 import requests
-from requests import get, post
+from requests import get
 from json import loads
 import urllib.request
 
-# Press Umschalt+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-# ip = "192.168.1.83"
-# port = "80"
-
-class camera_interaction:
-    """
-    With the methods in ths class a Micasense multispectral camera can be accessed.
-    """
-
-    def get_status(self):
-        response = requests.get('http://192.168.1.83:80/status')
-        print(response.status_code)
+from src.integration.api_integration_service import ApiIntegrationService
 
 
-    def trigger_pictures(self):
-        picture = requests.get('http://192.168.1.83:80/capture?preview=true')
-        print(picture.status_code)
-        print(picture.content)
+"""
+With these methods a Micasense multispectral camera can be accessed.
+Standard config Ethernet access:
+PC: IP: 192.168.1.40/24 Gateway:192.168.1.83
+CameraIP: 192.168.1.83
+"""
 
-    def download_picture(self):
-        path = "http://192.168.1.83/files"
 
-        # Finds the last set
-        Sets = get(path)
-        SetsArray = loads(Sets.text)
-        allSetNames = SetsArray['directories']
-        print(f'{"Number of Sets:"} \t {len(allSetNames)}')
-        lastSet = allSetNames[-1]
-        print(f'{"Last Set:"} \t {lastSet}')
+def get_status():
+    response = requests.get('http://192.168.1.83:80/status')
+    print(response.status_code)
 
-        # Finds the last subset
-        setPath = path + '/' + lastSet
-        print(setPath)
-        Subsets = get(setPath)
-        SubsetsArray = loads(Subsets.text)
-        # print(SubsetsArray)
-        allSubsetNames = SubsetsArray['directories']
-        # print(allSubsetNames)
-        print(f'{"Number of Subsets:"} \t {len(allSubsetNames)}')
-        lastSubset = allSubsetNames[-1]
-        print(f'{"Last Subset:"} \t {lastSubset}')
 
-        # Finds the last image
-        subsetPath = setPath + '/' + lastSubset
-        print(subsetPath)
-        Images = get(subsetPath)
-        ImagesArray = loads(Images.text)
-        # print(ImagesArray)
-        allImages = ImagesArray['files']
-        # allImageNames = allImages['name']
-        # print(allImageNames)
-        print(f'{"Number of Images:"} \t {len(allImages)}')
-        lastImage = allImages[-1]
-        lastImage = lastImage['name']
-        print(f'{"Last Image:"} \t {lastImage}')
-        lastCapPref = lastImage[0:8]
-        numBands = int(lastImage[-5])
-        print(f'{"Last Capture Prefix:"} \t {lastCapPref}')
-        print(f'{"Number of Bands:"} \t {numBands}')
+def trigger_pictures():
+    picture = requests.get('http://192.168.1.83:80/capture?preview=true')
+    print(picture.status_code)
+    print(picture.content)
 
-        i = 1
-        while i <= numBands:
-            imgPath = subsetPath + '/' + lastCapPref + '_' + str(i) + '.tif'
-            print(imgPath)
-            #Download of pictures
-            img_name = lastCapPref + '_' + str(i) + '.tif'
-            localPath = 'C:/Users/id496854/Documents/MicaSense_Integration/Pictures/' + img_name
-            urllib.request.urlretrieve(imgPath, localPath)
 
-            i += 1
+def download_picture():
+    path = "http://192.168.1.83/files"
+
+    # Finds the last set
+    sets = get(path)
+    sets_array = loads(sets.text)
+    all_set_names = sets_array['directories']
+    print(f'{"Number of sets:"} \t {len(all_set_names)}')
+    last_set = all_set_names[-1]
+    print(f'{"Last Set:"} \t {last_set}')
+
+    # Finds the last subset
+    set_path = path + '/' + last_set
+    print(set_path)
+    subsets = get(set_path)
+    subsets_array = loads(subsets.text)
+    # print(subsets_array)
+    all_subset_names = subsets_array['directories']
+    # print(all_subset_names)
+    print(f'{"Number of subsets:"} \t {len(all_subset_names)}')
+    last_subset = all_subset_names[-1]
+    print(f'{"Last Subset:"} \t {last_subset}')
+
+    # Finds the last image
+    subset_path = set_path + '/' + last_subset
+    print(subset_path)
+    images = get(subset_path)
+    images_array = loads(images.text)
+    # print(images_array)
+    all_images = images_array['files']
+    # allImageNames = all_images['name']
+    # print(allImageNames)
+    print(f'{"Number of images:"} \t {len(all_images)}')
+    last_image = all_images[-1]
+    last_image = last_image['name']
+    print(f'{"Last Image:"} \t {last_image}')
+    last_cap_pref = last_image[0:8]
+    num_bands = int(last_image[-5])
+    print(f'{"Last Capture Prefix:"} \t {last_cap_pref}')
+    print(f'{"Number of Bands:"} \t {num_bands}')
+
+    i = 1
+    while i <= num_bands:
+        img_path = subset_path + '/' + last_cap_pref + '_' + str(i) + '.tif'
+        print(img_path)
+        # Download of pictures
+        img_name = last_cap_pref + '_' + str(i) + '.tif'
+        local_path = 'C:/Users/id496854/Documents/MicaSense_Integration/Pictures/' + img_name
+        urllib.request.urlretrieve(img_path, local_path)
+
+        i += 1
+
+
+def send_pictures_via_api():
+    api_integration_service = ApiIntegrationService()
+
+    api_integration_service.check_availability()
+
+trigger_pictures()
+download_picture()
