@@ -18,7 +18,7 @@ class ApiIntegrationService:
         Checks the availability of the 5GLA API.
         """
         config_manager = ConfigManager()
-        url = config_manager.get('api_url') + config_manager.get('api_version_endpoint')
+        url = config_manager.get_env('API_URL') + config_manager.get('api_version_endpoint')
         headers = {'X-API-Key': config_manager.get_env('API_KEY')}
         response = requests.get(url=url, headers=headers)
         if response.status_code == 200:
@@ -60,7 +60,7 @@ class ApiIntegrationService:
         :return: True if the image is successfully sent, False otherwise.
         """
         config_manager = ConfigManager()
-        url = config_manager.get('api_url') + config_manager.get('api_image_endpoint')
+        url = config_manager.get_env('API_URL') + config_manager.get('api_image_endpoint')
         headers = {'X-API-Key': config_manager.get_env('API_KEY')}
         data = {
             'transactionId': transaction_id,
@@ -82,7 +82,7 @@ class ApiIntegrationService:
         :return: Returns True if the transaction was successfully ended. Returns False otherwise.
         """
         config_manager = ConfigManager()
-        url = config_manager.get('api_url') + config_manager.get('api_end_transaction_endpoint')
+        url = config_manager.get_env('API_URL') + config_manager.get('api_end_transaction_endpoint')
         url = url.replace('@transaction_id', transaction_id)
         headers = {'X-API-Key': config_manager.get_env('API_KEY')}
         response = requests.post(url=url, headers=headers)
