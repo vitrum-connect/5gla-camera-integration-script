@@ -2,6 +2,14 @@
 
 # Setup
 
+## Use local camera
+
+Define settings for the local network as follows:
+
+Ethernet: 192.168.1.40/24
+Gateway:192.168.1.83
+Camera: 192.168.1.83
+
 ## Virtual Environment (Conda)
 
 Create your virtual environment to ensure that you have the same python version and packages installed as the other

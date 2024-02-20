@@ -1,17 +1,11 @@
 # This is a sample Python script.
 import logging
+import os
 import urllib.request
 from json import loads
 
 import requests
 from requests import get
-
-"""
-With these methods a Micasense multispectral camera can be accessed.
-Standard config Ethernet access:
-PC: IP: 192.168.1.40/24 Gateway:192.168.1.83
-CameraIP: 192.168.1.83
-"""
 
 
 class CameraInteraction:
@@ -84,3 +78,21 @@ class CameraInteraction:
             local_path = save + img_name
             urllib.request.urlretrieve(img_path, local_path)
             i += 1
+
+    @staticmethod
+    def create_folder(folder):
+        """
+        :param folder: The folder to create.
+        :return: None
+
+        Creates a folder if it does not exist.
+
+        Example Usage:
+        create_folder('C:/Pictures/')
+        """
+        try:
+            os.makedirs(folder)
+        except FileExistsError:
+            logging.info(f"Folder '{folder}' already exists.")
+        except Exception as e:
+            logging.error(f"An error occurred while creating the folder: {e}")
