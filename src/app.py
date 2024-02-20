@@ -7,7 +7,6 @@ from src.integration.camera_interaction import CameraInteraction
 capture = CameraInteraction()
 config_manager = ConfigManager()
 
-# Periodically trigger the camera to take pictures
 while True:
     logging.debug("Triggering camera to take pictures.")
     capture.trigger_pictures(config_manager.get('trigger_photo_url'))
