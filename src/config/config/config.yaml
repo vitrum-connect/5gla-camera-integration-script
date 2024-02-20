@@ -4,3 +4,7 @@ api_image_endpoint: /mica-sense/images/
 api_end_transaction_endpoint: /mica-sense/images/@transaction_id/end
 max_retries: 3
 retry_delay_seconds: 5
+trigger_photo_url: http://192.168.1.83:80/capture?preview=true
+photo_download_url: http://192.168.1.83/files
+photo_save_path: ./MicaSense_Integration/Pictures
+photo_interval_seconds: 5

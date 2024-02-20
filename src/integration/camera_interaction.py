@@ -1,10 +1,10 @@
 # This is a sample Python script.
+import logging
+import urllib.request
+from json import loads
+
 import requests
 from requests import get
-from json import loads
-import urllib.request
-
-from src.integration.api_integration_service import ApiIntegrationService
 
 """
 With these methods a Micasense multispectral camera can be accessed.
@@ -15,79 +15,72 @@ CameraIP: 192.168.1.83
 
 
 class CameraInteraction:
+    """
+    CameraInteraction class for handling interactions with a camera.
 
-    def get_status(self, ip):
-        #response = requests.get('http://192.168.1.83:80/status')
-        response = requests.get(ip)
-        print(response.status_code)
-        return response.status_code
+    Methods:
+        - get_status(ip)
+        - trigger_pictures(ip)
+        - download_picture(ip, save)
+        - send_pictures_via_api()
+    """
 
-    def trigger_pictures(self, ip):
-        #picture = requests.get('http://192.168.1.83:80/capture?preview=true')
+    @staticmethod
+    def trigger_pictures(ip):
+        """
+        :param ip: The IP address of the server from which to request the picture
+        :return: None
+
+        """
         picture = requests.get(ip)
-        print(picture.status_code)
-        print(picture.content)
+        logging.info(f"Picture status: {picture.status_code}")
+        logging.info(f"Picture content: {picture.content}")
 
-    def download_picture(self, ip, save):
-        #path = "http://192.168.1.83/files"
+    @staticmethod
+    def download_picture(ip, save):
+        """
+        :param ip: The IP address of the server where the pictures are stored.
+        :param save: The directory where the downloaded pictures will be saved.
+        :return: None
+
+        Downloads the latest picture from a server given its IP address and saves it to a specified directory.
+
+        Example Usage:
+        download_picture('192.168.0.1', 'C:/Pictures/')
+        """
         path = ip
-        # Finds the last set
         sets = get(path)
         sets_array = loads(sets.text)
         all_set_names = sets_array['directories']
-        print(f'{"Number of sets:"} \t {len(all_set_names)}')
+        logging.info(f"Number of sets: {len(all_set_names)}")
         last_set = all_set_names[-1]
-        print(f'{"Last Set:"} \t {last_set}')
-
-        # Finds the last subset
+        logging.info(f"Last Set: {last_set}")
         set_path = path + '/' + last_set
-        print(set_path)
         subsets = get(set_path)
         subsets_array = loads(subsets.text)
-        # print(subsets_array)
         all_subset_names = subsets_array['directories']
-        # print(all_subset_names)
-        print(f'{"Number of subsets:"} \t {len(all_subset_names)}')
+        logging.debug(f"Number of subsets: {len(all_subset_names)}")
         last_subset = all_subset_names[-1]
-        print(f'{"Last Subset:"} \t {last_subset}')
-
-        # Finds the last image
+        logging.debug(f"Last Subset: {last_subset}")
         subset_path = set_path + '/' + last_subset
-        print(subset_path)
+        logging.debug(f"Subset Path: {subset_path}")
         images = get(subset_path)
         images_array = loads(images.text)
-        # print(images_array)
         all_images = images_array['files']
-        # allImageNames = all_images['name']
-        # print(allImageNames)
-        print(f'{"Number of images:"} \t {len(all_images)}')
+        logging.debug(f"Number of images: {len(all_images)}")
         last_image = all_images[-1]
         last_image = last_image['name']
-        print(f'{"Last Image:"} \t {last_image}')
+        logging.debug(f"Last Image: {last_image}")
         last_cap_pref = last_image[0:8]
         num_bands = int(last_image[-5])
-        print(f'{"Last Capture Prefix:"} \t {last_cap_pref}')
-        print(f'{"Number of Bands:"} \t {num_bands}')
+        logging.debug(f"Last Capture Prefix: {last_cap_pref}")
+        logging.debug(f"Number of Bands: {num_bands}")
 
         i = 1
         while i <= num_bands:
             img_path = subset_path + '/' + last_cap_pref + '_' + str(i) + '.tif'
             print(img_path)
-            # Download of pictures
             img_name = last_cap_pref + '_' + str(i) + '.tif'
-            #local_path = 'C:/Users/id496854/Documents/MicaSense_Integration/Pictures/' + img_name
             local_path = save + img_name
             urllib.request.urlretrieve(img_path, local_path)
-
             i += 1
-
-    def send_pictures_via_api(self):
-        api_integration_service = ApiIntegrationService()
-
-        api_integration_service.check_availability()
-
-
-capture = CameraInteraction()
-capture.trigger_pictures('http://192.168.1.83:80/capture?preview=true')
-capture.download_picture("http://192.168.1.83/files", 'C:/Users/id496854/Documents/MicaSense_Integration/Pictures/')
-
