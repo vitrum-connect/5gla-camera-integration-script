@@ -8,3 +8,4 @@ venv
 *.log.*
 .env
 .pytest_cache
+micasense_integration
