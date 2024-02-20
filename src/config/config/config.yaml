@@ -1,7 +1,8 @@
 version: 1.0.0
 api_version_endpoint: /info/version
 api_image_endpoint: /mica-sense/images/
-api_end_transaction_endpoint: /mica-sense/images/@transaction_id/end
+api_begin_transaction_endpoint: /mica-sense/images/@drone_id/@transaction_id/begin
+api_end_transaction_endpoint: /mica-sense/images/@drone_id/@transaction_id/end
 max_retries: 3
 retry_delay_seconds: 5
 trigger_photo_url: http://192.168.1.83:80/capture?preview=true
