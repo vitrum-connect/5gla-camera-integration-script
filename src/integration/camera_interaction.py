@@ -91,6 +91,7 @@ class CameraInteraction:
         create_folder('C:/Pictures/')
         """
         try:
+            logging.debug(f"Creating folder '{folder}'.")
             os.makedirs(folder)
         except FileExistsError:
             logging.info(f"Folder '{folder}' already exists.")
