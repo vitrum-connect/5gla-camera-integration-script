@@ -44,7 +44,7 @@ class ConfigManager:
         return value
 
     @staticmethod
-    def get_env(key, default):
+    def get_env_or_default(key, default):
         """
         :param key: The key of the environment variable to retrieve.
         :param default: The default value to return if the key is not found.

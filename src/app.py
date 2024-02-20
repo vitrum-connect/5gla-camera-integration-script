@@ -11,7 +11,7 @@ camera_integration_service = CameraIntegrationService()
 api_integration_service = ApiIntegrationService()
 transaction_id = uuid.uuid4().__str__()
 
-if config_manager.get_env('INTEGRATION_TEST', False):
+if config_manager.get_env_or_default('INTEGRATION_TEST', False):
     logging.info("Integration test mode is enabled.")
 else:
     if not api_integration_service.check_availability():
