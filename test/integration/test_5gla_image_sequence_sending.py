@@ -34,5 +34,5 @@ class ImageSequenceSendingTest(unittest.TestCase):
 
     @staticmethod
     def _read_base64_encoded_image(image_name):
-        with open(f'data/encoded_image_set/{image_name}', 'r') as file:
+        with open(f'test/integration/data/encoded_image_set/{image_name}', 'r') as file:
             return file.read()
