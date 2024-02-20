@@ -11,15 +11,16 @@ class ImageSequenceSendingTest(unittest.TestCase):
         api_integration_service = ApiIntegrationService()
         base64_encoded_images = self._read_all_images_as_base64_encoded_strings_from_files()
         self.assertEqual(5, len(base64_encoded_images))
-        transaction_id = '693197e0-eea3-432c-8cff-a5ee8a7208a2'
-        drone_id = '6f394286-5c51-49ff-ba98-a58de346188f'
+        transaction_id = 'a5ee8a7208a2'
+        drone_id = 'a58de346188f1236'
+        self.assertTrue(api_integration_service.begin_transaction(drone_id=drone_id, transaction_id=transaction_id))
         for channel, base64_encoded_image in base64_encoded_images.items():
             logging.info(f"Sending image for channel: {channel}")
             self.assertTrue(api_integration_service.send_image(transaction_id=('%s' % transaction_id),
                                                                drone_id=drone_id,
                                                                channel=channel,
                                                                images=[base64_encoded_image]))
-        self.assertTrue(api_integration_service.end_transaction(transaction_id=transaction_id))
+        self.assertTrue(api_integration_service.end_transaction(drone_id=drone_id, transaction_id=transaction_id))
 
     @staticmethod
     def _read_all_images_as_base64_encoded_strings_from_files():

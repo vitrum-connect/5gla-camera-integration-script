@@ -42,3 +42,14 @@ class ConfigManager:
         if value is None:
             raise KeyError(f"Key '{key}' has not been found in environment variables.")
         return value
+
+    @staticmethod
+    def get_env_or_default(key, default):
+        """
+        :param key: The key of the environment variable to retrieve.
+        :param default: The default value to return if the key is not found.
+        :return: The value of the specified environment variable.
+
+        """
+        value = os.environ.get(key, default)
+        return value
