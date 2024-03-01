@@ -8,7 +8,7 @@ from json import loads
 import requests
 from requests import get
 
-from src.integration.api_integration_service import ApiIntegrationService
+from api_integration_service import ApiIntegrationService
 
 
 class CameraIntegrationService:
