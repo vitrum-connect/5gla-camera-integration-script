@@ -5,8 +5,8 @@ api_begin_transaction_endpoint: /mica-sense/images/@drone_id/@transaction_id/beg
 api_end_transaction_endpoint: /mica-sense/images/@drone_id/@transaction_id/end
 max_retries: 3
 retry_delay_seconds: 5
-trigger_photo_url: http://192.168.1.83:80/capture?preview=true
-photo_download_url: http://192.168.1.83/files
+trigger_photo_url: http://192.168.0.108:80/capture?preview=true
+photo_download_url: http://192.168.0.108/files
 photo_folder: /micasense_integration/pictures/
 photo_interval_seconds: 5
 drone_id: a58de346188f1236 # Maximum 16 characters

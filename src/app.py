@@ -2,12 +2,13 @@ import logging
 import time
 import uuid
 
+logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
 #from src.config.config_manager import ConfigManager
 #from src.integration.api_integration_service import ApiIntegrationService
 #from src.integration.camera_integration_service import CameraIntegrationService
-from .config.config_manager import ConfigManager
-from .integration.api_integration_service import ApiIntegrationService
-from .integration.camera_integration_service import CameraIntegrationService
+from config.config_manager import ConfigManager
+from integration.api_integration_service import ApiIntegrationService
+from integration.camera_integration_service import CameraIntegrationService
 
 config_manager = ConfigManager()
 camera_integration_service = CameraIntegrationService()
