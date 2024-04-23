@@ -21,6 +21,8 @@ else:
     else:
         logging.info("API is available, starting the process.")
         while drone_integration_service.still_has_power():
+            camera_integration_service.send_camera_position_via_api(drone_id=config_manager.get('drone_id'),
+                                                                    transaction_id=transaction_id)
             logging.debug("Triggering camera to take pictures.")
             camera_integration_service.trigger_pictures(config_manager.get('trigger_photo_url'))
             logging.debug("Downloading picture into the given folder.")
@@ -32,5 +34,5 @@ else:
             camera_integration_service.send_pictures_via_api(drone_id=config_manager.get('drone_id'),
                                                              transaction_id=transaction_id,
                                                              folder=folder)
-            camera_integration_service.s
+
             time.sleep(config_manager.get('photo_interval_seconds'))

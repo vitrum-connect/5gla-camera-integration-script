@@ -8,6 +8,7 @@ from json import loads
 import requests
 from requests import get
 
+from src.config.config_manager import ConfigManager
 from src.integration.api_integration_service import ApiIntegrationService
 
 
@@ -132,7 +133,7 @@ class CameraIntegrationService:
         else:
             return 'UNKNOWN'
 
-    def send_camera_position_via_api(self, drone_id, transaction_id, url):
+    def send_camera_position_via_api(self, drone_id, transaction_id):
         """
         :param drone_id: The ID of the drone.
         :param transaction_id: The ID of the transaction.
@@ -143,7 +144,8 @@ class CameraIntegrationService:
         """
         logging.debug(f"Sending camera position to an API.")
         api_integration_service = ApiIntegrationService()
-        position_information = loads(self._get_camera_position(url).text)
+        config_manager = ConfigManager()
+        position_information = loads(self._get_camera_position(url=config_manager.get('camera_position_url')).text)
         return api_integration_service.send_device_position(transaction_id=('%s' % transaction_id),
                                                             drone_id=drone_id,
                                                             latitude=position_information['latitude'],
