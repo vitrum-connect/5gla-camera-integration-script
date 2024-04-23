@@ -148,8 +148,19 @@ class CameraIntegrationService:
         position_information = loads(self._get_camera_position(url=config_manager.get('camera_position_url')).text)
         return api_integration_service.send_device_position(transaction_id=('%s' % transaction_id),
                                                             drone_id=drone_id,
-                                                            latitude=position_information['latitude'],
-                                                            longitude=position_information['longitude'])
+                                                            latitude=self._radians_to_degree(
+                                                                position_information['latitude']),
+                                                            longitude=self._radians_to_degree(
+                                                                position_information['longitude']))
+
+    @staticmethod
+    def _radians_to_degree(value: float):
+        """
+        :param value: The value to convert.
+        :return: The converted value.
+
+        """
+        return value * 180 / 3.14159265359
 
     @staticmethod
     def _get_camera_position(url):

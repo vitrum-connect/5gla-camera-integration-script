@@ -19,7 +19,7 @@ class ApiIntegrationService:
         """
         config_manager = ConfigManager()
         url = config_manager.get_env('API_URL') + config_manager.get('api_version_endpoint')
-        headers = {'X-API-Key': config_manager.get_env('API_KEY')}
+        headers = {'X-API-Key': config_manager.get_env('API_KEY'), 'Content-Type': 'application/json'}
         response = requests.get(url=url, headers=headers)
         if response.status_code == 200:
             return True
