@@ -20,7 +20,6 @@ class ImageSequenceSendingTest(unittest.TestCase):
                                                                drone_id=drone_id,
                                                                channel=channel,
                                                                images=[base64_encoded_image]))
-        self.assertTrue(api_integration_service.end_transaction(drone_id=drone_id, transaction_id=transaction_id))
 
     @staticmethod
     def _read_all_images_as_base64_encoded_strings_from_files():

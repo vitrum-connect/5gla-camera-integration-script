@@ -12,23 +12,22 @@ from src.integration.api_integration_service import ApiIntegrationService
 
 
 class CameraIntegrationService:
-    number_of_sets_taken = 0
 
     @staticmethod
-    def trigger_pictures(ip):
+    def trigger_pictures(url):
         """
-        :param ip: The IP address of the server from which to request the picture
+        :param url: The IP address of the server from which to request the picture
         :return: None
 
         """
-        picture = requests.get(ip)
+        picture = requests.get(url)
         logging.info(f"Picture status: {picture.status_code}")
         logging.info(f"Picture content: {picture.content}")
 
     @staticmethod
-    def download_picture(ip, save):
+    def download_picture(url, save):
         """
-        :param ip: The IP address of the server where the pictures are stored.
+        :param url: The url where the pictures are stored.
         :param save: The directory where the downloaded pictures will be saved.
         :return: None
 
@@ -37,7 +36,7 @@ class CameraIntegrationService:
         Example Usage:
         download_picture('192.168.0.1', 'C:/Pictures/')
         """
-        path = ip
+        path = url
         sets = get(path)
         sets_array = loads(sets.text)
         all_set_names = sets_array['directories']
@@ -133,20 +132,30 @@ class CameraIntegrationService:
         else:
             return 'UNKNOWN'
 
-    def drone_has_lifted_off(self):
+    def send_camera_position_via_api(self, drone_id, transaction_id, url):
         """
-        :return: True if the drone has lifted off, False otherwise.
+        :param drone_id: The ID of the drone.
+        :param transaction_id: The ID of the transaction.
+        :param url: The IP address of the server from which to request the camera position.
+        :return: None
+
+        Sends the camera position to an API.
+        """
+        logging.debug(f"Sending camera position to an API.")
+        api_integration_service = ApiIntegrationService()
+        position_information = loads(self._get_camera_position(url).text)
+        return api_integration_service.send_device_position(transaction_id=('%s' % transaction_id),
+                                                            drone_id=drone_id,
+                                                            latitude=position_information['latitude'],
+                                                            longitude=position_information['longitude'])
+
+    @staticmethod
+    def _get_camera_position(url):
+        """
+        :param url: The IP address of the server from which to request the camera position.
+        :return: The camera position.
 
         """
-        self.number_of_sets_taken = 0
-        return True
-
-    def drone_is_flying(self):
-        """
-        Check if the drone is currently flying.
-
-        :return: True if the drone is flying, False otherwise.
-        :rtype: bool
-        """
-        self.number_of_sets_taken += 1
-        return self.number_of_sets_taken < 10
+        position = requests.get(url)
+        logging.info(f"Camera position: {position}")
+        return position
