@@ -20,8 +20,6 @@ else:
         logging.error("API is not available.")
     else:
         logging.info("API is available, starting the process.")
-        api_integration_service.begin_transaction(drone_id=config_manager.get('drone_id'),
-                                                  transaction_id=transaction_id)
         while drone_integration_service.still_has_power():
             logging.debug("Triggering camera to take pictures.")
             camera_integration_service.trigger_pictures(config_manager.get('trigger_photo_url'))
