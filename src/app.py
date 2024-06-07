@@ -8,6 +8,7 @@ from src.integration.camera_integration_service import CameraIntegrationService
 from src.integration.drone_integration_service import DroneIntegrationService
 
 config_manager = ConfigManager()
+config_manager.set_log_level_from_config()
 camera_integration_service = CameraIntegrationService()
 drone_integration_service = DroneIntegrationService()
 api_integration_service = ApiIntegrationService()
