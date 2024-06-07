@@ -25,6 +25,8 @@ class ApiIntegrationService:
         else:
             logging.error(f"API is not available. Status code: {response.status_code}")
             logging.error(f"The response from the service was: {response.text}")
+            logging.debug(f"URL: {url}")
+            logging.debug(f"Headers: {headers}")
             return False
 
     def send_image(self, transaction_id, drone_id, channel, images):
