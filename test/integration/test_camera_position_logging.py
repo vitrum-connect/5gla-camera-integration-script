@@ -13,6 +13,5 @@ class CameraPositionLoggingTest(unittest.TestCase):
         transaction_id = uuid.uuid4().__str__()
         camera_position_has_been_send_successfully = camera_integration_service.send_camera_position_via_api(
             drone_id=config_manager.get('drone_id'),
-            transaction_id=transaction_id,
-            url=config_manager.get('camera_position_url'))
+            transaction_id=transaction_id)
         self.assertTrue(camera_position_has_been_send_successfully)
