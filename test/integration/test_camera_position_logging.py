@@ -7,6 +7,7 @@ from src.integration.camera_integration_service import CameraIntegrationService
 
 class CameraPositionLoggingTest(unittest.TestCase):
 
+    @unittest.skip("Skip this test as it requires the camera to be connected to the network.")
     def test_given_camera_position_when_logging_the_camera_position_should_be_logged(self):
         camera_integration_service = CameraIntegrationService()
         config_manager = ConfigManager()

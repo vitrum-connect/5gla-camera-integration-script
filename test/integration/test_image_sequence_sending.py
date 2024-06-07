@@ -7,6 +7,7 @@ from src.integration.api_integration_service import ApiIntegrationService
 class ImageSequenceSendingTest(unittest.TestCase):
     micasense_image_channels = ['BLUE', 'GREEN', 'RED', 'RED_EDGE', 'NIR']
 
+    @unittest.skip("Skip this test as it requires the camera to be connected to the network.")
     def test_send_image_sequence_to_api(self):
         api_integration_service = ApiIntegrationService()
         base64_encoded_images = self._read_all_images_as_base64_encoded_strings_from_files()
