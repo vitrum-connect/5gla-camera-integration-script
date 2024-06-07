@@ -10,3 +10,5 @@ photo_download_url: http://192.168.1.83/files
 photo_folder: /micasense_integration/pictures/
 photo_interval_seconds: 5
 drone_id: a58de346188f1236 # Maximum 16 characters
+log_level: INFO
+log_level.console: INFO

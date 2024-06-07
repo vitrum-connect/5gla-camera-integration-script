@@ -7,6 +7,7 @@ from src.integration.api_integration_service import ApiIntegrationService
 from src.integration.camera_integration_service import CameraIntegrationService
 
 config_manager = ConfigManager()
+config_manager.set_log_level_from_config()
 camera_integration_service = CameraIntegrationService()
 api_integration_service = ApiIntegrationService()
 transaction_id = uuid.uuid4().__str__()
