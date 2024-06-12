@@ -107,7 +107,8 @@ class ApiIntegrationService:
                    'Authorization': self._get_authorization_token()}
         data = {
             'latitude': latitude,
-            'longitude': longitude
+            'longitude': longitude,
+            'group': config_manager.get('group_id'),
         }
         max_retries = ConfigManager().get('max_retries')
         for i in range(max_retries):
