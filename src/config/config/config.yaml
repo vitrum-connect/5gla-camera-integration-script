@@ -1,5 +1,4 @@
 version: 1.0.0
-api_version_endpoint: /sec/api-key/info/version
 api_image_endpoint: /sec/tenant/image-processing/images/
 api_begin_transaction_endpoint: /sec/tenant/image-processing/images/@drone_id/@transaction_id/begin
 api_end_transaction_endpoint: /sec/tenant/image-processing/images/@drone_id/@transaction_id/end
