@@ -12,24 +12,6 @@ class ApiIntegrationService:
     The `ApiIntegrationService` class provides methods to interact with the 5GLA API.
     """
 
-    @staticmethod
-    def check_availability():
-        """
-        Checks the availability of the 5GLA API.
-        """
-        config_manager = ConfigManager()
-        url = config_manager.get_env('API_URL') + config_manager.get('api_version_endpoint')
-        headers = {'X-API-Key': config_manager.get_env('API_KEY'), 'Content-Type': 'application/json'}
-        response = requests.get(url=url, headers=headers)
-        if response.status_code == 200:
-            return True
-        else:
-            logging.error(f"API is not available. Status code: {response.status_code}")
-            logging.error(f"The response from the service was: {response.text}")
-            logging.debug(f"URL: {url}")
-            logging.debug(f"Headers: {headers}")
-            return False
-
     def send_image(self, transaction_id, drone_id, channel, images):
         """
         Send images to API.
@@ -72,7 +54,7 @@ class ApiIntegrationService:
         }
         max_retries = ConfigManager().get('max_retries')
         for i in range(max_retries):
-            response = requests.post(url=url, headers=headers, json=data)
+            response = requests.post(url=url, headers=headers, json=data, verify=False)
             if response.status_code == 201:
                 return True
             else:
@@ -112,7 +94,7 @@ class ApiIntegrationService:
         }
         max_retries = ConfigManager().get('max_retries')
         for i in range(max_retries):
-            response = requests.post(url=url, headers=headers, json=data)
+            response = requests.post(url=url, headers=headers, json=data, verify=False)
             if response.status_code == 201:
                 return True
             else:
