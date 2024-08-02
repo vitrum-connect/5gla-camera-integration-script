@@ -17,27 +17,23 @@ transaction_id = uuid.uuid4().__str__()
 if config_manager.get_env_or_default('INTEGRATION_TEST', False):
     logging.info("Integration test mode is enabled.")
 else:
-    if not api_integration_service.check_availability():
-        logging.error("API is not available.")
-    else:
-        logging.info("API is available, starting the process.")
-        while drone_integration_service.still_has_power():
-            camera_integration_service.send_camera_position_via_api(drone_id=config_manager.get('drone_id'),
-                                                                    transaction_id=transaction_id)
-            enable_image_sending = config_manager.get('enable_image_sending')
-            if enable_image_sending:
-                logging.debug("Triggering camera to take pictures.")
-                camera_integration_service.trigger_pictures(config_manager.get('trigger_photo_url'))
-                logging.debug("Downloading picture into the given folder.")
-                folder = config_manager.get_env('WORKING_DIR') + config_manager.get(
-                    'photo_folder') + transaction_id + "/" + str(
-                    int(time.time())) + '/'
-                camera_integration_service.create_folder(folder)
-                camera_integration_service.download_picture(config_manager.get('photo_download_url'), folder)
-                camera_integration_service.send_pictures_via_api(drone_id=config_manager.get('drone_id'),
-                                                                 transaction_id=transaction_id,
-                                                                 folder=folder)
-            else:
-                logging.info("Image sending is disabled, skipping the process.")
+    while drone_integration_service.still_has_power():
+        camera_integration_service.send_camera_position_via_api(drone_id=config_manager.get('drone_id'),
+                                                                transaction_id=transaction_id)
+        enable_image_sending = config_manager.get('enable_image_sending')
+        if enable_image_sending:
+            logging.debug("Triggering camera to take pictures.")
+            camera_integration_service.trigger_pictures(config_manager.get('trigger_photo_url'))
+            logging.debug("Downloading picture into the given folder.")
+            folder = config_manager.get_env('WORKING_DIR') + config_manager.get(
+                'photo_folder') + transaction_id + "/" + str(
+                int(time.time())) + '/'
+            camera_integration_service.create_folder(folder)
+            camera_integration_service.download_picture(config_manager.get('photo_download_url'), folder)
+            camera_integration_service.send_pictures_via_api(drone_id=config_manager.get('drone_id'),
+                                                             transaction_id=transaction_id,
+                                                             folder=folder)
+        else:
+            logging.info("Image sending is disabled, skipping the process.")
 
-            time.sleep(config_manager.get('sending_interval_in_seconds'))
+        time.sleep(config_manager.get('sending_interval_in_seconds'))
