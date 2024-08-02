@@ -86,7 +86,7 @@ class ApiIntegrationService:
         processed_images = []
         for image in images:
             processed_images.append({
-                'micaSenseChannel': channel,
+                'imageChannel': channel,
                 'base64Image': image
             })
         return processed_images
