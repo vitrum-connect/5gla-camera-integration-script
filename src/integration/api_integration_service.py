@@ -49,7 +49,7 @@ class ApiIntegrationService:
                    'Authorization': self._get_authorization_token()}
         data = {
             'transactionId': transaction_id,
-            'droneId': camera_id,
+            'cameraId': camera_id,
             'images': self._process_images(channel, images)
         }
         max_retries = ConfigManager().get('max_retries')
