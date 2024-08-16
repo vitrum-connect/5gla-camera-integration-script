@@ -12,6 +12,8 @@ camera_position_url: http://192.168.0.108/gps
 photo_folder: /micasense_integration/pictures/
 sending_interval_in_seconds: 3
 drone_id: a58de346188f1236 # Maximum 16 characters
+camera_id: a58de346188f1236 # Maximum 16 characters
 log_level: INFO
 log_level.console: INFO
 group_id: some_group_id_used_by_the_camera
+camera_mode: experimental_setup

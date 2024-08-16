@@ -12,12 +12,13 @@ class ApiIntegrationService:
     The `ApiIntegrationService` class provides methods to interact with the 5GLA API.
     """
 
-    def send_image(self, transaction_id, drone_id, channel, images):
+    def send_image(self, transaction_id, camera_id, channel, images):
         """
         Send images to API.
 
         :param transaction_id: The ID of the transaction.
         :param drone_id: The ID of the drone.
+        :param camera_id: The ID of the camera.
         :param channel: The channel to send the images.
         :param images: A list of images to send.
         :return: True if the images were successfully sent, False otherwise.
@@ -25,7 +26,7 @@ class ApiIntegrationService:
         """
         max_retries = ConfigManager().get('max_retries')
         for i in range(max_retries):
-            if self._send_image(transaction_id, drone_id, channel, images):
+            if self._send_image(transaction_id, camera_id, channel, images):
                 return True
             else:
                 logging.info(f"Retrying to send image. Attempt {i + 1}/{max_retries}")
@@ -33,12 +34,12 @@ class ApiIntegrationService:
                 logging.info(f"Sleeping for {retry_delay_seconds} seconds.")
                 time.sleep(retry_delay_seconds)
 
-    def _send_image(self, transaction_id, drone_id, channel, images):
+    def _send_image(self, transaction_id, camera_id, channel, images):
         """
         Send an image to the API server for processing.
 
         :param transaction_id: The ID of the transaction.
-        :param drone_id: The ID of the drone.
+        :param camera_id: The ID of the camera.
         :param channel: The communication channel used for sending the images.
         :param images: A list of images to be sent.
         :return: True if the image is successfully sent, False otherwise.
@@ -49,7 +50,7 @@ class ApiIntegrationService:
                    'Authorization': self._get_authorization_token()}
         data = {
             'transactionId': transaction_id,
-            'droneId': drone_id,
+            'cameraId': camera_id,
             'images': self._process_images(channel, images)
         }
         max_retries = ConfigManager().get('max_retries')

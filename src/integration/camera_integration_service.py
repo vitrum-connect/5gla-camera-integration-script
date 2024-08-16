@@ -93,9 +93,10 @@ class CameraIntegrationService:
         except Exception as e:
             logging.error(f"An error occurred while creating the folder: {e}")
 
-    def send_pictures_via_api(self, drone_id, transaction_id, folder):
+    def send_pictures_via_api(self, camera_id, transaction_id, folder):
         """
         :param drone_id: The ID of the drone.
+        :param camera_id: The ID of the camera.
         :param transaction_id: The ID of the transaction.
         :param folder: The folder containing the pictures to send.
         :return: None
@@ -110,7 +111,7 @@ class CameraIntegrationService:
             with open(folder + file_path, 'rb') as file:
                 encoded_image = base64.b64encode(file.read()).decode('utf-8')
                 api_integration_service.send_image(transaction_id=('%s' % transaction_id),
-                                                   drone_id=drone_id,
+                                                   camera_id=camera_id,
                                                    channel=self._determine_channel(file_path),
                                                    images=[encoded_image])
 
