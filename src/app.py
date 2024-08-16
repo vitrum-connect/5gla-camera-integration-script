@@ -18,7 +18,6 @@ if config_manager.get_env_or_default('INTEGRATION_TEST', False):
     logging.info("Integration test mode is enabled.")
 else:
     while drone_integration_service.still_has_power():
-        # If the camera is in mode experimental setup, the position of the camera is not sent to the API.
         if config_manager.get('camera_mode') == 'drone':
             camera_integration_service.send_camera_position_via_api(drone_id=config_manager.get('drone_id'),
                                                                 transaction_id=transaction_id)
