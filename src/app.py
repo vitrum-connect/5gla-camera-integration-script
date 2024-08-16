@@ -18,8 +18,7 @@ if config_manager.get_env_or_default('INTEGRATION_TEST', False):
     logging.info("Integration test mode is enabled.")
 else:
     while drone_integration_service.still_has_power():
-        camera_integration_service.send_camera_position_via_api(drone_id=config_manager.get('drone_id'),
-                                                                transaction_id=transaction_id)
+
         enable_image_sending = config_manager.get('enable_image_sending')
         if enable_image_sending:
             logging.debug("Triggering camera to take pictures.")
@@ -35,5 +34,13 @@ else:
                                                              folder=folder)
         else:
             logging.info("Image sending is disabled, skipping the process.")
+
+        enable_position_sending = config_manager.get('enable_position_sending')
+        if enable_position_sending:
+            logging.debug("Sending camera position")
+            camera_integration_service.send_camera_position_via_api(drone_id=config_manager.get('drone_id'),
+                                                                    transaction_id=transaction_id)
+        else:
+            logging.info("Position sending is disabled, skipping the process")
 
         time.sleep(config_manager.get('sending_interval_in_seconds'))
