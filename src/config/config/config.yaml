@@ -5,6 +5,7 @@ api_end_transaction_endpoint: /sec/tenant/image-processing/images/@drone_id/@tra
 api_device_position_endpoint: /sec/tenant/device-position/@drone_id/@transaction_id/add
 max_retries: 3
 enable_image_sending: false
+enable_position_sending: false
 retry_delay_seconds: 5
 trigger_photo_url: http://192.168.0.108/capture?preview=true
 photo_download_url: http://192.168.0.108/files
@@ -12,6 +13,7 @@ camera_position_url: http://192.168.0.108/gps
 photo_folder: /micasense_integration/pictures/
 sending_interval_in_seconds: 3
 drone_id: a58de346188f1236 # Maximum 16 characters
+camera_id: a58de346188f1236 # Maximum 16 characters
 log_level: INFO
 log_level.console: INFO
 group_id: some_group_id_used_by_the_camera
