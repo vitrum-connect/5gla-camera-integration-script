@@ -44,7 +44,7 @@ class ApiIntegrationService:
         :return: True if the image is successfully sent, False otherwise.
         """
         config_manager = ConfigManager()
-        url = config_manager.get_env('API_URL') + config_manager.get('api_image_endpoint')
+        url = config_manager.get_env('API_URL') + config_manager.get_env('API_IMAGE_ENDPOINT')
         headers = {'X-API-Key': config_manager.get_env('API_KEY'), 'Content-Type': 'application/json',
                    'Authorization': self._get_authorization_token()}
         data = {
@@ -90,7 +90,7 @@ class ApiIntegrationService:
         data = {
             'latitude': latitude,
             'longitude': longitude,
-            'group': config_manager.get('group_id'),
+            'group': config_manager.get_env('GROUP_ID'),
         }
         max_retries = ConfigManager().get('max_retries')
         for i in range(max_retries):

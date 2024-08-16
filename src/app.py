@@ -19,7 +19,7 @@ if config_manager.get_env_or_default('INTEGRATION_TEST', False):
 else:
     while drone_integration_service.still_has_power():
 
-        enable_image_sending = config_manager.get('enable_image_sending')
+        enable_image_sending = config_manager.get_env('ENABLE_IMAGE_SENDING')
         if enable_image_sending:
             logging.debug("Triggering camera to take pictures.")
             camera_integration_service.trigger_pictures(config_manager.get('trigger_photo_url'))
@@ -29,18 +29,18 @@ else:
                 int(time.time())) + '/'
             camera_integration_service.create_folder(folder)
             camera_integration_service.download_picture(config_manager.get('photo_download_url'), folder)
-            camera_integration_service.send_pictures_via_api(camera_id=config_manager.get('camera_id'),
+            camera_integration_service.send_pictures_via_api(camera_id=config_manager.get_env('CAMERA_ID'),
                                                              transaction_id=transaction_id,
                                                              folder=folder)
         else:
             logging.info("Image sending is disabled, skipping the process.")
 
-        enable_position_sending = config_manager.get('enable_position_sending')
+        enable_position_sending = config_manager.get_env('ENABLE_POSITION_SENDING')
         if enable_position_sending:
             logging.debug("Sending camera position")
-            camera_integration_service.send_camera_position_via_api(drone_id=config_manager.get('drone_id'),
+            camera_integration_service.send_camera_position_via_api(drone_id=config_manager.get_env('CAMERA_ID'),
                                                                     transaction_id=transaction_id)
         else:
             logging.info("Position sending is disabled, skipping the process")
 
-        time.sleep(config_manager.get('sending_interval_in_seconds'))
+        time.sleep(config_manager.get_env('SENDING_INTERVAL_IN_SECONDS'))
