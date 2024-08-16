@@ -29,7 +29,7 @@ else:
                 int(time.time())) + '/'
             camera_integration_service.create_folder(folder)
             camera_integration_service.download_picture(config_manager.get('photo_download_url'), folder)
-            camera_integration_service.send_pictures_via_api(drone_id=config_manager.get('drone_id'),
+            camera_integration_service.send_pictures_via_api(camera_id=config_manager.get('camera_id'),
                                                              transaction_id=transaction_id,
                                                              folder=folder)
         else:
