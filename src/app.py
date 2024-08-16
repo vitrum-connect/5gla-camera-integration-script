@@ -43,4 +43,4 @@ else:
         else:
             logging.info("Position sending is disabled, skipping the process")
 
-        time.sleep(config_manager.get_env('SENDING_INTERVAL_IN_SECONDS'))
+        time.sleep(int(config_manager.get_env('SENDING_INTERVAL_IN_SECONDS')))
