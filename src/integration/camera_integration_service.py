@@ -43,6 +43,8 @@ class CameraIntegrationService:
         all_set_names = sets_array['directories']
         logging.info(f"Number of sets: {len(all_set_names)}")
         last_set = all_set_names[-1]
+        if last_set == "System Volume Information":
+            last_set = all_set_names[-2]
         logging.info(f"Last Set: {last_set}")
         set_path = path + '/' + last_set
         subsets = get(set_path)
