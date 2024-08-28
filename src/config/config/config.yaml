@@ -4,9 +4,9 @@ api_end_transaction_endpoint: /sec/tenant/image-processing/images/@drone_id/@tra
 api_device_position_endpoint: /sec/tenant/device-position/@drone_id/@transaction_id/add
 max_retries: 3
 retry_delay_seconds: 5
-trigger_photo_url: http://192.168.0.108/capture?preview=true
-photo_download_url: http://192.168.0.108/files
-camera_position_url: http://192.168.0.108/gps
+trigger_photo_url: http://192.168.0.107/capture?preview=true
+photo_download_url: http://192.168.0.107/files
+camera_position_url: http://192.168.0.107/gps
 photo_folder: /micasense_integration/pictures/
 log_level: INFO
 log_level.console: INFO
