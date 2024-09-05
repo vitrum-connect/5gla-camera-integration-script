@@ -1,6 +1,6 @@
 version: 1.0.0
-api_begin_transaction_endpoint: /sec/tenant/image-processing/images/@drone_id/@transaction_id/begin
-api_end_transaction_endpoint: /sec/tenant/image-processing/images/@drone_id/@transaction_id/end
+api_begin_transaction_endpoint: /sec/tenant/images/@drone_id/@transaction_id/begin
+api_end_transaction_endpoint: /sec/tenant/images/@drone_id/@transaction_id/end
 api_device_position_endpoint: /sec/tenant/device-position/@drone_id/@transaction_id/add
 max_retries: 3
 retry_delay_seconds: 5
