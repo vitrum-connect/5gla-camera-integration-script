@@ -108,3 +108,22 @@ class ApiIntegrationService:
         config_manager = ConfigManager()
         tenant_and_access_token = config_manager.get_env('TENANT') + ':' + config_manager.get_env('TENANT_ACCESS_TOKEN')
         return 'Basic ' + base64.b64encode(tenant_and_access_token.encode()).decode()
+
+    def send_heartbeat(self, drone_id: str):
+        """
+        Send a heartbeat to the API server.
+        :param drone_id: The ID of the drone.
+        """
+        config_manager = ConfigManager()
+        url = config_manager.get_env('API_HEARTBEAT_URL')
+        url = url.replace('@drone_id', drone_id)
+        headers = {'X-API-Key': config_manager.get_env('API_KEY'), 'Content-Type': 'application/json',
+                   'Authorization': self._get_authorization_token()}
+        response = requests.post(url=url, headers=headers, verify=False)
+        if response.status_code == 201:
+            return True
+        else:
+            logging.error(
+                f"Looks like the heartbeat was not transferred correctly. Status code: {response.status_code}")
+            logging.error(f"The response from the service was: {response.text}")
+            return False
